@@ -19,13 +19,74 @@ const createEvent = async (req, res) => {
 
 const getEvents = async (req, res) => {
   try {
+    //
+    // CURRENT LOGIN USER
+    //
+    const userId = req.user.id
+
     const events = await prisma.event.findMany({
+      include: {
+        registrations: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+
       orderBy: {
         createdAt: 'desc',
       },
     })
 
-    res.status(200).json(events)
+    //
+    // MODIFY EVENT RESPONSE
+    //
+    const modifiedEvents = events.map(
+      event => {
+        //
+        // CHECK USER REGISTERED OR NOT
+        //
+        const isRegistered =
+          event.registrations.some(
+            registration =>
+              registration.userId ===
+              userId
+          )
+
+        //
+        // TOTAL REGISTERED USERS
+        //
+        const totalRegisteredUsers =
+          event.registrations.length
+
+        //
+        // REMAINING SEATS
+        //
+        const remainingSeats =
+          event.capacity -
+          totalRegisteredUsers
+
+        return {
+          ...event,
+
+          isRegistered,
+
+          totalRegisteredUsers,
+
+          remainingSeats,
+        }
+      }
+    )
+
+    res.status(200).json(
+      modifiedEvents
+    )
   } catch (error) {
     res.status(500).json({
       message: error.message,

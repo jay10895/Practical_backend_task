@@ -12,7 +12,11 @@ const roleMiddleware = require('../middleware/roleMiddleware')
 
 const router = express.Router()
 
-router.get('/', getEvents)
+router.get(
+  '/',
+  authMiddleware,
+  getEvents
+)
 
 router.post(
   '/',

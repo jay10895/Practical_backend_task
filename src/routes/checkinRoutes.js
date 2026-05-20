@@ -1,11 +1,44 @@
 const express = require('express')
 
-const { checkIn } = require('../controllers/checkinController')
+const {
+  checkIn,
+  searchAttendee,
+  getCheckins,
+} = require('../controllers/checkinController')
 
 const authMiddleware = require('../middleware/authMiddleware')
 
+const roleMiddleware = require('../middleware/roleMiddleware')
+
 const router = express.Router()
 
-router.post('/', authMiddleware, checkIn)
+//
+// CHECK-IN USER
+//
+router.post(
+  '/',
+  authMiddleware,
+  roleMiddleware(['ADMIN']),
+  checkIn
+)
+
+//
+// SEARCH ATTENDEE
+//
+router.get(
+  '/search',
+  authMiddleware,
+  roleMiddleware(['ADMIN']),
+  searchAttendee
+)
+
+//
+// GET ALL CHECK-IN LIST
+//
+router.get(
+  '/',
+  authMiddleware,
+  getCheckins
+)
 
 module.exports = router
