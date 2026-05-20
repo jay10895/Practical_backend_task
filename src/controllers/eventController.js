@@ -59,6 +59,14 @@ const deleteEvent = async (req, res) => {
   try {
     const { id } = req.params
 
+    // delete registrations first
+    await prisma.registration.deleteMany({
+      where: {
+        eventId: Number(id),
+      },
+    })
+
+    // delete event
     await prisma.event.delete({
       where: {
         id: Number(id),
