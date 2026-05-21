@@ -19,6 +19,7 @@ const signup = async (req, res) => {
 
     if (existing) {
       return res.status(400).json({
+        status: 400,
         message: 'User already exists',
       })
     }
@@ -35,6 +36,7 @@ const signup = async (req, res) => {
     })
 
     res.status(201).json({
+      status: 201,
       message: 'Signup successful',
       token: generateToken(user),
       user,
@@ -55,7 +57,12 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' })
 
-    res.status(200).json({ message: 'Login successful', token: generateToken(user), user })
+    res.status(201).json({
+      status: 201,
+      message: 'Login successful',
+      token: generateToken(user),
+      user,
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

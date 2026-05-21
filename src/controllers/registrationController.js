@@ -14,6 +14,7 @@ const registerEvent = async (req, res) => {
     if (!event) {
       return res.status(404).json({
         message: 'Event not found',
+        status: 404,
       })
     }
 
@@ -29,6 +30,7 @@ const registerEvent = async (req, res) => {
 
     if (existingRegistration) {
       return res.status(400).json({
+        status: 400,
         message: 'Already registered for this event',
       })
     }
@@ -41,6 +43,7 @@ const registerEvent = async (req, res) => {
 
     if (registrationCount >= event.capacity) {
       return res.status(400).json({
+        status: 400,
         message: 'Event is full',
       })
     }
@@ -53,11 +56,13 @@ const registerEvent = async (req, res) => {
     })
 
     res.status(201).json({
+      status: 201,
       message: 'Registration successful',
       registration,
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -80,6 +85,7 @@ const cancelRegistration = async (req, res) => {
 
     if (!existingRegistration) {
       return res.status(404).json({
+        status: 404,
         message: 'Registration not found',
       })
     }
@@ -93,11 +99,13 @@ const cancelRegistration = async (req, res) => {
       },
     })
 
-    res.status(200).json({
+    res.status(201).json({
+      status: 201,
       message: 'Registration cancelled successfully',
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }

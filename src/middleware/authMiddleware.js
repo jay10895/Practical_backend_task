@@ -8,6 +8,7 @@ const authMiddleware = (req, res, next) => {
 
       return res.status(401).json({
         message: 'No token provided',
+        status: 401,
       })
     }
 
@@ -19,6 +20,7 @@ const authMiddleware = (req, res, next) => {
   } catch (error) {
     return res.status(401).json({
       message: 'Invalid token',
+      status: 401,
     })
   }
 }

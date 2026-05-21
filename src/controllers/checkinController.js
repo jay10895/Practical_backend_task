@@ -24,6 +24,7 @@ const checkIn = async (req, res) => {
       return res.status(400).json({
         message:
           'User already checked in',
+        status: 400,
       })
     }
 
@@ -44,6 +45,7 @@ const checkIn = async (req, res) => {
       return res.status(400).json({
         message:
           'User is not registered for this event',
+        status: 400,
       })
     }
 
@@ -77,11 +79,13 @@ const checkIn = async (req, res) => {
       })
 
     res.status(201).json({
+      status: 201,
       message: 'Check-in successful',
       checkin,
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -142,11 +146,13 @@ const searchAttendee = async (
         },
       })
 
-    res.status(200).json(
+    res.status(201).json({
+      status: 201,
       attendees
-    )
+    })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -185,11 +191,13 @@ const getCheckins = async (
         },
       })
 
-    res.status(200).json(
+    res.status(201).json({
+      status: 201,
       checkins
-    )
+    })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }

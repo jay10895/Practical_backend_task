@@ -7,11 +7,13 @@ const createEvent = async (req, res) => {
     })
 
     res.status(201).json({
+      status: 201,
       message: 'Event created successfully',
       event,
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -84,11 +86,14 @@ const getEvents = async (req, res) => {
       }
     )
 
-    res.status(200).json(
-      modifiedEvents
-    )
+    res.status(201).json({
+      status: 201,
+      message: 'Events retrieved successfully',
+      events: modifiedEvents,
+    })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -105,12 +110,14 @@ const updateEvent = async (req, res) => {
       data: req.body,
     })
 
-    res.status(200).json({
+    res.status(201).json({
+      status: 201,
       message: 'Event updated successfully',
       event,
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
@@ -134,11 +141,13 @@ const deleteEvent = async (req, res) => {
       },
     })
 
-    res.status(200).json({
+    res.status(201).json({
+      status: 201,
       message: 'Event deleted successfully',
     })
   } catch (error) {
     res.status(500).json({
+      status: 500,
       message: error.message,
     })
   }
