@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "db:prepare": "node node_modules/prisma/build/index.js migrate deploy && node node_modules/prisma/build/index.js generate",
-    "dev": "npm run db:prepare && nodemon src/server.js",
-    "start": "npm run db:prepare && node src/server.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
