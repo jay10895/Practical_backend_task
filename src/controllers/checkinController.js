@@ -1,5 +1,13 @@
 const prisma = require('../config/db')
 
+const formatPrismaError = (error) => {
+  if (error.message.includes('does not exist') || error.message.includes('column')) {
+    return 'Database schema mismatch detected. Run the database migrations and regenerate Prisma client, then restart the server.'
+  }
+
+  return error.message
+}
+
 //
 // CHECK-IN USER
 //
@@ -86,7 +94,7 @@ const checkIn = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: error.message,
+      message: formatPrismaError(error),
     })
   }
 }
@@ -153,7 +161,7 @@ const searchAttendee = async (
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: error.message,
+      message: formatPrismaError(error),
     })
   }
 }
@@ -198,7 +206,7 @@ const getCheckins = async (
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: error.message,
+      message: formatPrismaError(error),
     })
   }
 }
